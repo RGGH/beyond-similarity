@@ -40,7 +40,7 @@
   <div class="scene-head">
     <div class="scene-tag"><span class="dot"></span>Scene 05 — Qdrant &amp; Pseudocode</div>
     <h1>One query. Retrieval and ranking, in the same round trip.</h1>
-    <p class="scene-dek">The conceptual shape of a Formula Query — not a line-by-line rebuild of the demo app, which is already covered elsewhere.</p>
+    <p class="scene-dek">The conceptual shape of a Formula Query</p>
   </div>
 
   <section class="section">
@@ -97,7 +97,7 @@ results = <span class="fn">rank_by</span>(candidates, final_score, limit=<span c
 
 <section class="section">
 
-  <h2><span class="idx">03\</span>What Qdrant is actually doing here\</h2>
+  <h2><span class="idx">03\</span>What Qdrant is actually doing here</h2>
 
   <p>This runs as a single query against the database — the prefetch and the formula rescoring happen server-side, in one round trip. That matters for two reasons: the ranking logic lives next to the data it reads instead of in application code pulling every candidate back to compute a score client-side, and it stays fast enough to run per-request rather than as a batch job.</p>
 

@@ -45,7 +45,7 @@
 
   <section class="section">
     <h2><span class="idx">01</span>Reuse, don't reinvent</h2>
-    <p class="lede">The fastest way to lose a video's audience is thirty minutes of dataset preparation before the interesting part starts. So: an existing H&amp;M product dataset, already embedded and already loaded into a Qdrant collection, complete with the business fields a real storefront would track.</p>
+    <p class="lede">For a prototype, 100k items, use the existing H&amp;M product dataset, already embedded and already loaded into a Qdrant collection, complete with the business fields a real storefront would track.</p>
     <p>Every point in the collection looks like this:</p>
     <div class="code-block"><pre>{
   <span class="c1">// vector: dense embedding of image + description (not shown)</span>
@@ -97,7 +97,7 @@
 
   <section class="section">
     <h2><span class="idx">03</span>Seeing it in the demo</h2>
-    <p>The companion app, <em>Boosted Search</em>, exposes exactly this split: a query box for the vector side, plus sliders and a colour filter for the payload side.</p>
+    <p>The app, <em>"Boosted Search"</em>, exposes exactly this split: a query box for the vector side, plus sliders and a colour filter for the payload side.</p>
     <figure class="shot">
       <img src="img/app-search.png" alt="Boosted Search app showing a query for 'summer dress, long sleeves', popularity and recency weight sliders, a linear decay function selector, and a colour filter set to Red.">
       <figcaption>Boosted Search — query, weight sliders, decay function, and the colour payload filter.</figcaption>
