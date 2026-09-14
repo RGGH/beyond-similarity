@@ -64,6 +64,7 @@
         <p>I used a real H&amp;M product dataset (downloaded from Hugging face/Kaggle). The aim is to have a collection loaded into Qdrant.<p>
          To begin with, use dense vectors and payload fields like popularity and recency.</p> 
           Modify the payload values if required, you can use Qdrant's 'set_payload'</p>
+          <p>If you use AI to help, you'll need to remind it that this dataset is several years old, else you would get a large number like 2197 for "days since purchase" - the fix is to set a global day zero, and cache it, with ttl=3600 so it stays 'current' as hours/days go by.</p>
       </div>
       <div class="card">
         <h3>The tool</h3>
