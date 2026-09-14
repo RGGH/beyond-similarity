@@ -97,7 +97,8 @@
     <div class="card-grid">
       <div class="card">
         <h3>The setup</h3>
-        <p>I used a real H&amp;M product dataset (downloaded from Hugging face/Kaggle). The aim is to have a collection loaded into Qdrant.<p>
+        <p>The aim is to have a collection loaded into Qdrant.</p>
+        <p>I used a real <a href="https://huggingface.co/datasets/Qdrant/hm_ecommerce_products">H&amp;M product dataset</a> (downloaded from Hugging face/Kaggle).<br> This dataset is 247Mb, and has, or rather <i>had</i> links to images on AWS S3 : "All product images uploaded to S3 with direct URL access via image_url field". <p>This seems to have expired, so I got 32Gb images from the Kaggle dataset and modded my code to find images from local directory served by http-server.</p>
          To begin with, use dense vectors and payload fields like popularity and recency.</p> 
           Modify the payload values if required, you can use Qdrant's 'set_payload'</p>
           <p>If you use AI to help, you'll need to remind it that this dataset is several years old, else you would get a large number like 2197 for "days since purchase" - the fix is to set a global day zero, and cache it, with ttl=3600 so it stays 'current' as hours/days go by.</p>
