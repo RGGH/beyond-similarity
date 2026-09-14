@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Formula Query — Beyond Similarity</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="topnav">
+  <div class="topnav-inner">
+    <a class="brand" href="index.html">
+      <svg class="brand-mark" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M10 0L19 5V15L10 20L1 15V5L10 0Z" fill="#0B0F19"/>
+        <path d="M10 0L19 5L10 10L1 5L10 0Z" fill="#DC244C"/>
+        <path d="M10 10L19 5V15L10 20V10Z" fill="#6047FF"/>
+      </svg>
+      Beyond Similarity
+      <small>Recommendations with Qdrant</small>
+    </a>
+    <nav aria-label="Scenes">
+      <ul class="scenes">
+        <li><a href="index.html"><span class="n">01</span>Intro</a></li>
+        <li><a href="problem.html"><span class="n">02</span>Concept</a></li>
+        <li><a href="dataset.html"><span class="n">03</span>Dataset</a></li>
+        <li><a href="theory.html"><span class="n">04</span>Theory</a></li>
+        <li><a href="pseudocode.html" class="active"><span class="n">05</span>Formula</a></li>
+        <li><a href="hints.html"><span class="n">06</span>Hints</a></li>
+        <li><a href="review.html"><span class="n">07</span>Review</a></li>
+        <li><a href="conclusion.html"><span class="n">08</span>Wrap-up</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+
+  <div class="scene-head">
+    <div class="scene-tag"><span class="dot"></span>Scene 05 — Qdrant &amp; Pseudocode</div>
+    <h1>One query. Retrieval and ranking, in the same round trip.</h1>
+    <p class="scene-dek">The conceptual shape of a Formula Query — not a line-by-line rebuild of the demo app, which is already covered elsewhere.</p>
+  </div>
+
+  <section class="section">
+    <h2><span class="idx">01</span>The flow</h2>
+    <p class="lede">A boosted search is really two stages wearing one query: prefetch a wide candidate set by vector similarity, then rescore that set with a formula that folds in payload signals.</p>
+    <div class="flow">
+      <div class="flow-step accent-v">
+        <span class="k">prefetch</span>
+        <strong>Vector similarity</strong>
+        <span class="d">Embed the query, retrieve a wide candidate set (e.g. top 100) by nearest neighbour</span>
+      </div>
+      <div class="flow-step accent-p">
+        <span class="k">payload</span>
+        <strong>Business signals</strong>
+        <span class="d">Pull popularity, recency and any filter fields already stored on each candidate</span>
+      </div>
+      <div class="flow-step accent-k">
+        <span class="k">formula</span>
+        <strong>Rescore</strong>
+        <span class="d">Combine similarity + weighted signals into one final_score per candidate</span>
+      </div>
+      <div class="flow-step accent-k">
+        <span class="k">result</span>
+        <strong>Final ranking</strong>
+        <span class="d">Sort by final_score, return the top N</span>
+      </div>
+    </div>
+    <p>The candidate set from the first stage is deliberately wider than what gets returned — rescoring can only reorder what it's given, so retrieval needs enough headroom for popularity and recency to meaningfully shuffle the ranking.</p>
+  </section>
+
+  <section class="section">
+    <h2><span class="idx">02</span>The shape of the formula, in pseudocode</h2>
+    <p>Stripped down to the concept — no client setup, no error handling, no Streamlit:</p>
+    <div class="code-block"><pre><span class="c1"># 1. retrieve a wide candidate set by vector similarity</span>
+candidates = <span class="fn">vector_search</span>(query_embedding, limit=<span class="str">100</span>, filter=colour_filter)
+
+<span class="c1"># 2. define a decay curve over the recency payload field</span>
+recency_term = <span class="fn">decay</span>(
+    field=<span class="str">"recency"</span>, shape=<span class="str">"linear | exp | gauss"</span>,
+    target=<span class="str">1.0</span>, scale=<span class="str">0.5</span>, midpoint=<span class="str">0.5</span>,
+)
+
+<span class="c1"># 3. rescore each candidate with an additive formula</span>
+final_score = <span class="fn">sum</span>(
+    <span class="kw">$score</span>,                                <span class="c1"># the original similarity</span>
+    popularity_weight * <span class="kw">payload.popularity</span>,
+    recency_weight   * recency_term,
+)
+
+<span class="c1"># 4. sort candidates by final_score, return the top N</span>
+results = <span class="fn">rank_by</span>(candidates, final_score, limit=<span class="str">10</span>)</pre></div>
+    <p>Two things worth noticing: <code>$score</code> is a reference to the similarity already computed in the prefetch step, not a fresh computation — the formula reuses it rather than re-deriving it. And the decay curve is just another term; swapping <code>linear</code> for <code>gauss</code> changes the shape of one input, not the structure of the formula.</p>
+  </section>
+
+  <section class="section">
+    <h2><span class="idx">03</span>What Qdrant is actually doing here</h2>
+    <p>This runs as a single query against the database — the prefetch and the formula rescoring happen server-side, in one round trip. That matters for two reasons: the ranking logic lives next to the data it reads instead of in application code pulling every candidate back to compute a score client-side, and it stays fast enough to run per-request rather than as a batch job.</p>
+    <p>The previous videos in this series build the full working version of this — embeddings, collection setup, the Streamlit UI. This scene is about the shape of the idea, not a rebuild.</p>
+  </section>
+
+</main>
+
+<div class="pagenav">
+  <a class="prev" href="theory.html">
+    <span class="lbl">Back — Scene 04</span>
+    <span class="ttl">← Theory</span>
+  </a>
+  <a class="next" href="hints.html">
+    <span class="lbl">Next — Scene 06</span>
+    <span class="ttl">Hints →</span>
+  </a>
+</div>
+
+<footer class="sitefoot">Beyond Similarity · Boosted Search demo · H&amp;M dataset in Qdrant</footer>
+
+</body>
+</html>

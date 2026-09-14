@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Theory — Beyond Similarity</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="topnav">
+  <div class="topnav-inner">
+    <a class="brand" href="index.html">
+      <svg class="brand-mark" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M10 0L19 5V15L10 20L1 15V5L10 0Z" fill="#0B0F19"/>
+        <path d="M10 0L19 5L10 10L1 5L10 0Z" fill="#DC244C"/>
+        <path d="M10 10L19 5V15L10 20V10Z" fill="#6047FF"/>
+      </svg>
+      Beyond Similarity
+      <small>Recommendations with Qdrant</small>
+    </a>
+    <nav aria-label="Scenes">
+      <ul class="scenes">
+        <li><a href="index.html"><span class="n">01</span>Intro</a></li>
+        <li><a href="problem.html"><span class="n">02</span>Concept</a></li>
+        <li><a href="dataset.html"><span class="n">03</span>Dataset</a></li>
+        <li><a href="theory.html" class="active"><span class="n">04</span>Theory</a></li>
+        <li><a href="pseudocode.html"><span class="n">05</span>Formula</a></li>
+        <li><a href="hints.html"><span class="n">06</span>Hints</a></li>
+        <li><a href="review.html"><span class="n">07</span>Review</a></li>
+        <li><a href="conclusion.html"><span class="n">08</span>Wrap-up</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+
+  <div class="scene-head">
+    <div class="scene-tag"><span class="dot"></span>Scene 04 — Theory</div>
+    <h1>Build the score up one term at a time.</h1>
+    <p class="scene-dek">Additive scoring, why scale matters more than you'd expect, and what decay is actually doing to the recency field.</p>
+  </div>
+
+  <section class="section">
+    <h2><span class="idx">01</span>Start simple</h2>
+    <p class="lede">The starting point is just semantic similarity, unmodified:</p>
+    <div class="formula">
+      <span class="term">score</span>
+      <span class="op">=</span>
+      <span class="term sim">similarity</span>
+    </div>
+    <p>Then add terms, one signal at a time, each scaled by a weight that controls how much it's allowed to move the ranking:</p>
+    <div class="formula">
+      <span class="term">score</span>
+      <span class="op">=</span>
+      <span class="term sim">similarity</span>
+      <span class="op">+</span>
+      <span class="term pop">w₁ · popularity</span>
+      <span class="op">+</span>
+      <span class="term rec">w₂ · recency</span>
+    </div>
+    <p>This is <strong>additive scoring</strong>: every signal contributes independently, and the weight is the only knob that decides how loud each one gets. It's not the only way to combine signals — you could multiply, or take a max — but additive is the easiest to reason about, debug, and explain to a non-technical stakeholder, which matters more than it sounds like it should.</p>
+  </section>
+
+  <section class="section">
+    <h2><span class="idx">02</span>Why scale matters</h2>
+    <p>Additive scoring has one sharp edge: every term is on a different natural scale, and the formula has no idea. Cosine similarity lives in roughly <code>[-1, 1]</code>. A raw popularity count might live in the thousands. Add them directly and the popularity count doesn't "contribute" to the score — it <em>replaces</em> it.</p>
+    <p>That's why both <code>popularity</code> and <code>recency</code> in this dataset are precomputed into a normalised <code>[0, 1]</code> range before they ever reach the formula. Normalisation isn't a nice-to-have step, it's what makes the weights meaningful in the first place — a weight of <code>0.2</code> only means "twenty percent as important as similarity" if both terms are already on comparable footing.</p>
+  </section>
+
+  <section class="section">
+    <h2><span class="idx">03</span>Decay: turning "distance from ideal" into a score</h2>
+    <p>Popularity is simple — bigger is always better, so it plugs straight into the sum. Recency is subtler: the payload doesn't store "how recent," it stores a <code>recency</code> value already expressed as closeness to the ideal of <code>1.0</code> (just purchased). A <strong>decay function</strong> turns that "distance from ideal" into a smooth score between 0 and 1, and the shape of the curve changes how forgiving it is:</p>
+    <table class="compare">
+      <tr><th>Shape</th><th>Behaviour</th></tr>
+      <tr><td>Linear</td><td>Score falls off at a constant rate as an item moves away from the target. Predictable, easy to reason about.</td></tr>
+      <tr><td>Exponential</td><td>Fast drop-off near the target, then a long, flat tail — mildly stale items are barely penalised, very stale ones fall hard.</td></tr>
+      <tr><td>Gaussian</td><td>Gentle near the target, steep in the middle distance, flat again far out — a soft window around "recent enough."</td></tr>
+    </table>
+    <p>All three take the same inputs — a target, a scale, and a midpoint — and just reshape the curve between them. Swapping decay type doesn't change what's being measured, only how harshly distance from that target is punished.</p>
+  </section>
+
+  <section class="section">
+    <h2><span class="idx">04</span>Try it: same item, different weights</h2>
+    <p>This is the "Strap top" point from the dataset again — semantic similarity of roughly <code>0.73</code> against a summer-dress-style query, <code>popularity 0.858</code>, and a recency decay value of <code>0.915</code>. Drag the weights and watch each term's contribution to <code>final_score</code> move.</p>
+
+    <div class="demo">
+      <div class="demo-head">
+        <h3>Score components</h3>
+        <span class="demo-item">item: Strap top · sim 0.730 · popularity 0.858 · recency 0.915</span>
+      </div>
+
+      <div class="slider-row">
+        <label for="w-pop">Popularity weight <span class="val" id="w-pop-val">0.20</span></label>
+        <input type="range" id="w-pop" min="0" max="1" step="0.05" value="0.2">
+      </div>
+      <div class="slider-row">
+        <label for="w-rec">Recency weight <span class="val" id="w-rec-val">0.25</span></label>
+        <input type="range" id="w-rec" min="0" max="1" step="0.05" value="0.25">
+      </div>
+
+      <div class="stackbar">
+        <div class="seg-sim" id="seg-sim"></div>
+        <div class="seg-pop" id="seg-pop"></div>
+        <div class="seg-rec" id="seg-rec"></div>
+      </div>
+      <div class="stack-legend">
+        <span><i style="background:#4C39CC"></i>similarity</span>
+        <span><i style="background:#DC244C"></i>popularity · w</span>
+        <span><i style="background:#FF8AA6"></i>recency · w</span>
+      </div>
+      <div class="total-score" id="total-score-out">final_score = <b>1.108</b></div>
+    </div>
+
+    <p>Push either weight toward <code>1.0</code> and the bar makes the failure mode obvious: similarity — the thing that made this a relevant candidate in the first place — gets crowded out. The formula still runs, it just stops being a <em>semantic</em> search.</p>
+
+    <figure class="shot">
+      <img src="img/app-results.png" alt="Boosted Search results table and a stacked bar chart labelled 'Score components', showing each result's vector_score, popularity and recency contributions to final_score.">
+      <figcaption>The same idea in the live app — a stacked bar per result, vector score at the base.</figcaption>
+    </figure>
+  </section>
+
+  <section class="section">
+    <h2><span class="idx">05</span>The reframe</h2>
+    <p>None of this touches the underlying semantic search. Business logic doesn't change what "similar" means — it changes the <strong>ranking function</strong> applied after similarity has already done its job. That separation is what makes the next scene possible: Qdrant lets you express this formula as part of the query itself.</p>
+  </section>
+
+</main>
+
+<div class="pagenav">
+  <a class="prev" href="dataset.html">
+    <span class="lbl">Back — Scene 03</span>
+    <span class="ttl">← Dataset</span>
+  </a>
+  <a class="next" href="pseudocode.html">
+    <span class="lbl">Next — Scene 05</span>
+    <span class="ttl">Formula →</span>
+  </a>
+</div>
+
+<footer class="sitefoot">Beyond Similarity · Boosted Search demo · H&amp;M dataset in Qdrant</footer>
+
+<script src="script.js"></script>
+</body>
+</html>

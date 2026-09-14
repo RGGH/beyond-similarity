@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Concept — Beyond Similarity</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="topnav">
+  <div class="topnav-inner">
+    <a class="brand" href="index.html">
+      <svg class="brand-mark" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M10 0L19 5V15L10 20L1 15V5L10 0Z" fill="#0B0F19"/>
+        <path d="M10 0L19 5L10 10L1 5L10 0Z" fill="#DC244C"/>
+        <path d="M10 10L19 5V15L10 20V10Z" fill="#6047FF"/>
+      </svg>
+      Beyond Similarity
+      <small>Recommendations with Qdrant</small>
+    </a>
+    <nav aria-label="Scenes">
+      <ul class="scenes">
+        <li><a href="index.html"><span class="n">01</span>Intro</a></li>
+        <li><a href="problem.html" class="active"><span class="n">02</span>Concept</a></li>
+        <li><a href="dataset.html"><span class="n">03</span>Dataset</a></li>
+        <li><a href="theory.html"><span class="n">04</span>Theory</a></li>
+        <li><a href="pseudocode.html"><span class="n">05</span>Formula</a></li>
+        <li><a href="hints.html"><span class="n">06</span>Hints</a></li>
+        <li><a href="review.html"><span class="n">07</span>Review</a></li>
+        <li><a href="conclusion.html"><span class="n">08</span>Wrap-up</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+
+  <div class="scene-head">
+    <div class="scene-tag"><span class="dot"></span>Scene 02 — Problem &amp; Concept</div>
+    <h1>Relevant isn't the same question as "what should I recommend?"</h1>
+    <p class="scene-dek">Vector similarity answers one question well. A recommendation surface has to answer a different, messier one.</p>
+  </div>
+
+  <section class="section">
+    <h2><span class="idx">01</span>What vector similarity gives you</h2>
+    <p class="lede">A dense embedding puts a query and a catalog of products in the same space, and nearest-neighbour search returns the items closest to that query. That's <strong>semantic relevance</strong> — how well an item matches the meaning of what was asked for.</p>
+    <p>It's a genuinely hard problem, and modern vector databases solve it well. But "close in embedding space" quietly assumes that closeness is the only thing that matters for what gets shown first — and in a real storefront, it isn't.</p>
+  </section>
+
+  <section class="section">
+    <h2><span class="idx">02</span>What a recommendation actually needs</h2>
+    <p>Two items can sit at nearly identical distance from a query and still deserve very different treatment:</p>
+    <div class="cols">
+      <div class="card">
+        <h3>Item A</h3>
+        <p>Semantically on point, but it's an out-of-stock style from three seasons ago that nobody has bought recently.</p>
+      </div>
+      <div class="card">
+        <h3>Item B</h3>
+        <p>Slightly less "on the nose" semantically, but it's a current bestseller with strong recent purchase activity.</p>
+      </div>
+    </div>
+    <p>A storefront usually wants to surface Item B first. Similarity alone can't tell them apart — it has no concept of stock, trend, or business priority. That gap is where additional signals come in: rating, popularity, recency, margin, customer preference, whatever the business actually cares about.</p>
+  </section>
+
+  <section class="section">
+    <h2><span class="idx">03</span>Think of ranking as a scoring function</h2>
+    <p>The reframe that makes this tractable: stop thinking of "search" and "ranking" as one step. Retrieval finds the candidates. Ranking is a separate function that takes each candidate and produces a number — a score — used purely to order the results.</p>
+    <p>That score can be built from anything measurable: the semantic similarity is one input among several, not the whole answer.</p>
+    <div class="formula">
+      <span class="term sim">semantic similarity</span>
+      <span class="op">+</span>
+      <span class="term pop">business signals</span>
+      <span class="op">=</span>
+      <span class="term">ranking score</span>
+    </div>
+    <p>The next scene looks at the dataset this score will be built from — and specifically, which fields belong to the vector side of the problem and which belong to the business-logic side.</p>
+  </section>
+
+</main>
+
+<div class="pagenav">
+  <a class="prev" href="index.html">
+    <span class="lbl">Back — Scene 01</span>
+    <span class="ttl">← Intro</span>
+  </a>
+  <a class="next" href="dataset.html">
+    <span class="lbl">Next — Scene 03</span>
+    <span class="ttl">Dataset →</span>
+  </a>
+</div>
+
+<footer class="sitefoot">Beyond Similarity · Boosted Search demo · H&amp;M dataset in Qdrant</footer>
+
+</body>
+</html>

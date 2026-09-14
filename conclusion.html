@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Wrap-up — Beyond Similarity</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="topnav">
+  <div class="topnav-inner">
+    <a class="brand" href="index.html">
+      <svg class="brand-mark" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M10 0L19 5V15L10 20L1 15V5L10 0Z" fill="#0B0F19"/>
+        <path d="M10 0L19 5L10 10L1 5L10 0Z" fill="#DC244C"/>
+        <path d="M10 10L19 5V15L10 20V10Z" fill="#6047FF"/>
+      </svg>
+      Beyond Similarity
+      <small>Recommendations with Qdrant</small>
+    </a>
+    <nav aria-label="Scenes">
+      <ul class="scenes">
+        <li><a href="index.html"><span class="n">01</span>Intro</a></li>
+        <li><a href="problem.html"><span class="n">02</span>Concept</a></li>
+        <li><a href="dataset.html"><span class="n">03</span>Dataset</a></li>
+        <li><a href="theory.html"><span class="n">04</span>Theory</a></li>
+        <li><a href="pseudocode.html"><span class="n">05</span>Formula</a></li>
+        <li><a href="hints.html"><span class="n">06</span>Hints</a></li>
+        <li><a href="review.html"><span class="n">07</span>Review</a></li>
+        <li><a href="conclusion.html" class="active"><span class="n">08</span>Wrap-up</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+
+  <div class="scene-head">
+    <div class="scene-tag"><span class="dot"></span>Scene 08 — Conclusion</div>
+    <h1>Two jobs, done by two different parts of the system.</h1>
+    <p class="scene-dek">A short close, tying retrieval and ranking back together.</p>
+  </div>
+
+  <div class="vo">
+    <div class="vo-inner">
+      <div class="vo-label">VOICEOVER</div>
+      <p>"Vector search gets us relevant candidates. Ranking logic determines which candidates should appear first."</p>
+    </div>
+  </div>
+
+  <section class="section">
+    <h2><span class="idx">01</span>The throughline</h2>
+    <p class="lede">Everything in this video sits on that one distinction. Semantic similarity is necessary — without it, there's no candidate set worth ranking. But it was never sufficient on its own, and treating it as the whole answer is how a search system quietly stops matching what a business actually needs.</p>
+    <p>Formula Query doesn't replace the vector search — it sits directly on top of it, close enough to reuse the similarity score itself, and just as easy to change as a weight on a slider.</p>
+  </section>
+
+  <section class="section">
+    <h2><span class="idx">02</span>Where to go from here</h2>
+    <div class="card-grid">
+      <div class="card">
+        <h3>Try the demo</h3>
+        <p>Run <em>Boosted Search</em> against your own collection — swap in different payload fields and see which ones actually move the ranking.</p>
+      </div>
+      <div class="card">
+        <h3>Read up on decay shapes</h3>
+        <p>Linear, exponential and Gaussian each suit a different kind of "distance from ideal" — pick based on how forgiving the signal should be.</p>
+      </div>
+      <div class="card">
+        <h3>Watch for the LTR moment</h3>
+        <p>When hand-tuned weights stop feeling adequate and interaction data is piling up, that's the signal to look at Learn-to-Rank.</p>
+      </div>
+      <div class="card">
+        <h3>Keep the formula transparent</h3>
+        <p>Even after adopting more advanced ranking, a simple Formula Query fallback is worth keeping around — for debugging, and for new items with no history yet.</p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<div class="pagenav">
+  <a class="prev" href="review.html">
+    <span class="lbl">Back — Scene 07</span>
+    <span class="ttl">← Review</span>
+  </a>
+  <a class="next" href="index.html">
+    <span class="lbl">Start over</span>
+    <span class="ttl">Intro →</span>
+  </a>
+</div>
+
+<footer class="sitefoot">Beyond Similarity · Boosted Search demo · H&amp;M dataset in Qdrant</footer>
+
+</body>
+</html>

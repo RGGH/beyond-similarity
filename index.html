@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Beyond Similarity — E-commerce Recommendations with Qdrant</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="topnav">
+  <div class="topnav-inner">
+    <a class="brand" href="index.html">
+      <svg class="brand-mark" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M10 0L19 5V15L10 20L1 15V5L10 0Z" fill="#0B0F19"/>
+        <path d="M10 0L19 5L10 10L1 5L10 0Z" fill="#DC244C"/>
+        <path d="M10 10L19 5V15L10 20V10Z" fill="#6047FF"/>
+      </svg>
+      Beyond Similarity
+      <small>Recommendations with Qdrant</small>
+    </a>
+    <nav aria-label="Scenes">
+      <ul class="scenes">
+        <li><a href="index.html" class="active"><span class="n">01</span>Intro</a></li>
+        <li><a href="problem.html"><span class="n">02</span>Concept</a></li>
+        <li><a href="dataset.html"><span class="n">03</span>Dataset</a></li>
+        <li><a href="theory.html"><span class="n">04</span>Theory</a></li>
+        <li><a href="pseudocode.html"><span class="n">05</span>Formula</a></li>
+        <li><a href="hints.html"><span class="n">06</span>Hints</a></li>
+        <li><a href="review.html"><span class="n">07</span>Review</a></li>
+        <li><a href="conclusion.html"><span class="n">08</span>Wrap-up</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+
+  <div class="scene-head">
+    <div class="scene-tag"><span class="dot"></span>Scene 01 — Intro</div>
+    <h1>Vector search finds what's similar. It doesn't decide what to show first.</h1>
+    <p class="scene-dek">A video walkthrough on combining vector similarity with business logic to build recommendations that actually rank the way a business needs them to.</p>
+
+    <figure class="shot">
+      <img src="img/search_results.png" alt="Boosted Search results: a ranked list of dresses with final_score, vector_score, popularity and recency, plus a stacked bar chart of score components per item.">
+      <figcaption>Boosted Search — the ranked output this video builds toward.</figcaption>
+    </figure>
+  </div>
+
+  <div class="vo">
+    <div class="vo-inner">
+      <div class="vo-label">VOICEOVER</div>
+      <p>"This video looks at how to combine vector similarity with business logic to improve recommendations."</p>
+    </div>
+  </div>
+
+  <section class="section">
+    <h2><span class="idx">01</span>What this video covers</h2>
+    <p class="lede">Semantic search is the easy part now — embed a query, find nearby vectors, done. The harder, more interesting problem is what happens after retrieval: turning a list of "similar" items into a list of items worth showing.</p>
+    <div class="card-grid">
+      <div class="card">
+        <h3>The setup</h3>
+        <p>A real H&amp;M product dataset already loaded into Qdrant, with both dense vectors and payload fields like popularity and recency.</p>
+      </div>
+      <div class="card">
+        <h3>The tool</h3>
+        <p>Qdrant's <code>FormulaQuery</code> — a way to define a ranking function on top of retrieval, without leaving the database.</p>
+      </div>
+      <div class="card">
+        <h3>The demo</h3>
+        <p>A small Streamlit app, <em>Boosted Search</em>, where you can drag popularity and recency weights and watch the ranking move in real time.</p>
+      </div>
+      <div class="card">
+        <h3>The payoff</h3>
+        <p>A mental model for where hand-designed ranking ends and Learn-to-Rank begins — and how to tell which one a project actually needs.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2><span class="idx">02</span>Where we're headed</h2>
+    <p>Eight scenes, in order — this site mirrors the video script scene for scene, so you can jump ahead or follow along linearly.</p>
+    <div class="flow">
+      <div class="flow-step accent-v">
+        <span class="k">02</span>
+        <strong>Concept</strong>
+        <span class="d">Why relevance ≠ recommendation</span>
+      </div>
+      <div class="flow-step accent-v">
+        <span class="k">03</span>
+        <strong>Dataset</strong>
+        <span class="d">Vector vs. payload fields</span>
+      </div>
+      <div class="flow-step accent-p">
+        <span class="k">04</span>
+        <strong>Theory</strong>
+        <span class="d">Additive scoring, weights, decay</span>
+      </div>
+      <div class="flow-step accent-p">
+        <span class="k">05</span>
+        <strong>Formula</strong>
+        <span class="d">Qdrant's FormulaQuery, in pseudocode</span>
+      </div>
+      <div class="flow-step accent-k">
+        <span class="k">06–08</span>
+        <strong>Hints, review, wrap-up</strong>
+        <span class="d">Practical pitfalls and where LTR fits</span>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<div class="pagenav">
+  <span class="stub"></span>
+  <a class="next" href="problem.html">
+    <span class="lbl">Next — Scene 02</span>
+    <span class="ttl">Problem &amp; Concept →</span>
+  </a>
+</div>
+
+<footer class="sitefoot">Beyond Similarity · Boosted Search demo · H&amp;M dataset in Qdrant</footer>
+
+</body>
+</html>

@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hints — Beyond Similarity</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="topnav">
+  <div class="topnav-inner">
+    <a class="brand" href="index.html">
+      <svg class="brand-mark" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M10 0L19 5V15L10 20L1 15V5L10 0Z" fill="#0B0F19"/>
+        <path d="M10 0L19 5L10 10L1 5L10 0Z" fill="#DC244C"/>
+        <path d="M10 10L19 5V15L10 20V10Z" fill="#6047FF"/>
+      </svg>
+      Beyond Similarity
+      <small>Recommendations with Qdrant</small>
+    </a>
+    <nav aria-label="Scenes">
+      <ul class="scenes">
+        <li><a href="index.html"><span class="n">01</span>Intro</a></li>
+        <li><a href="problem.html"><span class="n">02</span>Concept</a></li>
+        <li><a href="dataset.html"><span class="n">03</span>Dataset</a></li>
+        <li><a href="theory.html"><span class="n">04</span>Theory</a></li>
+        <li><a href="pseudocode.html"><span class="n">05</span>Formula</a></li>
+        <li><a href="hints.html" class="active"><span class="n">06</span>Hints</a></li>
+        <li><a href="review.html"><span class="n">07</span>Review</a></li>
+        <li><a href="conclusion.html"><span class="n">08</span>Wrap-up</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+
+  <div class="scene-head">
+    <div class="scene-tag"><span class="dot"></span>Scene 06 — Hints &amp; Practical Points</div>
+    <h1>Five things that go wrong before this feels obvious.</h1>
+    <p class="scene-dek">Nothing here is exotic — but each one is an easy way to quietly break a ranking formula that looks correct on paper.</p>
+  </div>
+
+  <section class="section">
+    <h2><span class="idx">01</span>Don't let one signal dominate by accident</h2>
+    <p>The slider demo in Scene 04 makes this visible on purpose: push one weight high enough and it swamps everything else, including the similarity score that made the candidate relevant in the first place. The formula doesn't complain — it just quietly stops being a semantic search. Sanity-check the relative size of each term's contribution, not just its weight.</p>
+  </section>
+
+  <section class="section">
+    <h2><span class="idx">02</span>Think about scale before you think about weight</h2>
+    <p>A weight only means what you think it means if the underlying field is already on a sane scale. A raw purchase count and a cosine similarity are not comparable numbers — normalise first, weight second. Skipping this step is the single most common way a "0.1 weight" ends up dominating the score anyway.</p>
+  </section>
+
+  <section class="section">
+    <h2><span class="idx">03</span>Prefer simple formulas</h2>
+    <p>An additive sum of two or three normalised terms is easy to reason about, easy to explain to a stakeholder, and easy to debug when a ranking looks wrong. Nested conditionals and multiplicative terms compound quickly — each added term multiplies the number of interactions you have to reason about, not just adds to it.</p>
+  </section>
+
+  <section class="section">
+    <h2><span class="idx">04</span>Actually test the effect of changing weights</h2>
+    <p>A formula that looks reasonable in isolation can still produce a ranking nobody would choose. Run the same query through a few weight configurations — or a few decay shapes, as in the comparison chart from the demo app — and look at how the actual top results move, not just the numbers.</p>
+<figure class="shot">
+  <img src="img/decay-comparison.png" alt="Line chart comparing final_score by rank across linear, exponential, and Gaussian decay functions for the same search.">
+  <figcaption>Same query and weights, re-run with each decay function.</figcaption>
+</figure>
+  </section>
+
+  <section class="section">
+    <h2><span class="idx">05</span>Keep retrieval and ranking conceptually separate</h2>
+    <p>Even though they run in one query, treat them as two different jobs while you're building: retrieval decides who's in the room, ranking decides who speaks first. Debugging is much easier when you can ask "is this a bad candidate, or a badly ranked good candidate?" as two separate questions instead of one tangled one.</p>
+  </section>
+
+</main>
+
+<div class="pagenav">
+  <a class="prev" href="pseudocode.html">
+    <span class="lbl">Back — Scene 05</span>
+    <span class="ttl">← Formula</span>
+  </a>
+  <a class="next" href="review.html">
+    <span class="lbl">Next — Scene 07</span>
+    <span class="ttl">Review →</span>
+  </a>
+</div>
+
+<footer class="sitefoot">Beyond Similarity · Boosted Search demo · H&amp;M dataset in Qdrant</footer>
+
+</body>
+</html>
