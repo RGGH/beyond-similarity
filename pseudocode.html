@@ -95,11 +95,16 @@ results = <span class="fn">rank_by</span>(candidates, final_score, limit=<span c
     <p>Two things worth noticing: <code>$score</code> is a reference to the similarity already computed in the prefetch step, not a fresh computation — the formula reuses it rather than re-deriving it. And the decay curve is just another term; swapping <code>linear</code> for <code>gauss</code> changes the shape of one input, not the structure of the formula.</p>
   </section>
 
-  <section class="section">
-    <h2><span class="idx">03</span>What Qdrant is actually doing here</h2>
-    <p>This runs as a single query against the database — the prefetch and the formula rescoring happen server-side, in one round trip. That matters for two reasons: the ranking logic lives next to the data it reads instead of in application code pulling every candidate back to compute a score client-side, and it stays fast enough to run per-request rather than as a batch job.</p>
-    <p>The previous videos in this series build the full working version of this — embeddings, collection setup, the Streamlit UI. This scene is about the shape of the idea, not a rebuild.</p>
-  </section>
+<section class="section">
+
+  <h2><span class="idx">03\</span>What Qdrant is actually doing here\</h2>
+
+  <p>This runs as a single query against the database — the prefetch and the formula rescoring happen server-side, in one round trip. That matters for two reasons: the ranking logic lives next to the data it reads instead of in application code pulling every candidate back to compute a score client-side, and it stays fast enough to run per-request rather than as a batch job.</p>
+
+  <p>The videos in this <a href="https://www.youtube.com/playlist?list=PLKMY3XNPiQ7vyxWGlpdYPHneYZDS2oPEK" target="_blank" rel="noopener noreferrer">playlist series</a> build the full working version of this — embeddings, collection setup, the Streamlit UI. This scene is about the shape of the idea, not a rebuild.</p>
+
+</section>
+
 
 </main>
 

@@ -45,14 +45,14 @@
 
   <div class="vo">
     <div class="vo-inner">
-      <div class="vo-label">VOICEOVER</div>
+      <div class="vo-label">OBSERVATION</div>
       <p>"Vector search gets us relevant candidates. Ranking logic determines which candidates should appear first."</p>
     </div>
   </div>
 
   <section class="section">
     <h2><span class="idx">01</span>The throughline</h2>
-    <p class="lede">Everything in this video sits on that one distinction. Semantic similarity is necessary — without it, there's no candidate set worth ranking. But it was never sufficient on its own, and treating it as the whole answer is how a search system quietly stops matching what a business actually needs.</p>
+    <p class="lede">Everything in this guide sits on that one distinction. Semantic similarity is necessary — without it, there's no candidate set worth ranking. But it was never sufficient on its own, and treating it as the whole answer is how a search system quietly stops matching what a business actually needs.</p>
     <p>Formula Query doesn't replace the vector search — it sits directly on top of it, close enough to reuse the similarity score itself, and just as easy to change as a weight on a slider.</p>
   </section>
 
@@ -63,10 +63,16 @@
         <h3>Try the demo</h3>
         <p>Run <em>Boosted Search</em> against your own collection — swap in different payload fields and see which ones actually move the ranking.</p>
       </div>
-      <div class="card">
-        <h3>Read up on decay shapes</h3>
-        <p>Linear, exponential and Gaussian each suit a different kind of "distance from ideal" — pick based on how forgiving the signal should be.</p>
-      </div>
+<div class="card">
+
+  <h3>Read up on decay shapes</h3>
+
+  <p>Linear, exponential and Gaussian each suit a different kind of "distance from ideal" — pick based on how forgiving the signal should be.</p>
+
+  <p><a href="https://www.desmos.com/calculator" target="_blank" rel="noopener noreferrer">Desmos</a> is your friend, or if it's not already it's well worth trying out</p>
+
+</div>
+
       <div class="card">
         <h3>Watch for the LTR moment</h3>
         <p>When hand-tuned weights stop feeling adequate and interaction data is piling up, that's the signal to look at Learn-to-Rank.</p>
