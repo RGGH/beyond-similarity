@@ -80,6 +80,11 @@
       <tr><td>Gaussian</td><td>Gentle near the target, steep in the middle distance, flat again far out — a soft window around "recent enough."</td></tr>
     </table>
     <p>All three take the same inputs — a target, a scale, and a midpoint — and just reshape the curve between them. Swapping decay type doesn't change what's being measured, only how harshly distance from that target is punished.</p>
+
+    <figure class="shot">
+      <img src="img/decay-function.png" alt="Bell-shaped decay curve peaking at the target value, with the scale annotated as the horizontal distance from the target and the midpoint annotated as the vertical drop at that distance.">
+      <figcaption>A decay curve's three knobs: <code>target</code> is where the score peaks, <code>scale</code> is how far you have to move before <code>midpoint</code> kicks in.</figcaption>
+    </figure>
   </section>
 
   <section class="section">
@@ -115,16 +120,16 @@
     </div>
 
     <p>Push either weight toward <code>1.0</code> and the bar makes the failure mode obvious: similarity — the thing that made this a relevant candidate in the first place — gets crowded out. The formula still runs, it just stops being a <em>semantic</em> search.</p>
+    <p>Note: Formula queries can only be used as a rescoring step.</p>
 
-    <figure class="shot">
-      <img src="img/app-results.png" alt="Boosted Search results table and a stacked bar chart labelled 'Score components', showing each result's vector_score, popularity and recency contributions to final_score.">
-      <figcaption>The same idea in the live app — a stacked bar per result, vector score at the base.</figcaption>
-    </figure>
   </section>
 
   <section class="section">
     <h2><span class="idx">05</span>The reframe</h2>
     <p>None of this touches the underlying semantic search. Business logic doesn't change what "similar" means — it changes the <strong>ranking function</strong> applied after similarity has already done its job. That separation is what makes the next scene possible: Qdrant lets you express this formula as part of the query itself.</p>
+    <p>
+      Swapping the decay type doesn't change what's being measured, only how harshly the distance from the target is punished.
+    </p>
   </section>
 
 </main>

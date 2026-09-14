@@ -5,6 +5,39 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Beyond Similarity — E-commerce Recommendations with Qdrant</title>
 <link rel="stylesheet" href="style.css">
+<style>
+  /* Scene 01 hero: title/copy on the left, lady.png floated to the right,
+     overlapping the text column like the mockup. Tweak freely to match
+     whatever spacing style.css otherwise expects. */
+  .scene-head--split {
+    position: relative;
+  }
+  .scene-head-text {
+    max-width: 640px;
+  }
+  .scene-head-lady {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 360px;
+    max-width: 42%;
+    height: auto;
+    z-index: 2;
+    pointer-events: none;
+  }
+  @media (max-width: 900px) {
+    .scene-head-lady {
+      position: static;
+      display: block;
+      width: 220px;
+      max-width: 70%;
+      margin: 1.5rem auto 0;
+    }
+    .scene-head-text {
+      max-width: none;
+    }
+  }
+</style>
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
@@ -37,10 +70,13 @@
 
 <main id="main">
 
-  <div class="scene-head">
-    <div class="scene-tag"><span class="dot"></span>Scene 01 — Intro</div>
-    <h1>Vector search finds what's similar. It doesn't decide what to show first.</h1>
-    <p class="scene-dek">A walkthrough on combining vector similarity with business logic to build recommendations that actually rank the way a business needs them to.</p>
+  <div class="scene-head scene-head--split">
+    <div class="scene-head-text">
+      <div class="scene-tag"><span class="dot"></span>Scene 01 — Intro</div>
+      <h1>Vector search finds what's similar. It doesn't decide what to show first.</h1>
+      <p class="scene-dek">A walkthrough on combining vector similarity with business logic to build recommendations that actually rank the way a business needs them to.</p>
+    </div>
+    <img class="scene-head-lady" src="img/lady.png" alt="Illustration of a woman in a red dress working on a laptop.">
 
     <figure class="shot">
       <img src="img/search_results.png" alt="Boosted Search results: a ranked list of dresses with final_score, vector_score, popularity and recency, plus a stacked bar chart of score components per item.">
