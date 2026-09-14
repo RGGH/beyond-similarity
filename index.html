@@ -44,7 +44,7 @@
 
     <figure class="shot">
       <img src="img/search_results.png" alt="Boosted Search results: a ranked list of dresses with final_score, vector_score, popularity and recency, plus a stacked bar chart of score components per item.">
-      <figcaption>Boosted Search — using Qdrant. The ranked output this guide builds toward.</figcaption>
+      <figcaption>Boosted Search — using Qdrant. The ranked output is what this guide builds toward.</figcaption>
     </figure>
   </div>
 
@@ -67,16 +67,23 @@
           <p>If you use AI to help, you'll need to remind it that this dataset is several years old, else you would get a large number like 2197 for "days since purchase" - the fix is to set a global day zero, and cache it, with ttl=3600 so it stays 'current' as hours/days go by.</p>
       </div>
       <div class="card">
-        <h3>The tool</h3>
-        <p>Qdrant's <code>FormulaQuery</code> — a way to define a ranking function on top of retrieval, without leaving the database.</p>
-      </div>
+
+
+  <h3>The tool</h3>
+
+  <p>Qdrant's <code>FormulaQuery</code> — a way to define a ranking function on top of retrieval, without leaving the database.</p>
+
+  <p><a href="https://qdrant.tech/documentation/search/search-relevance/#score-boosting">Qdrant FormulaQuery — Score Boosting</a></p>
+
+</div>
+
       <div class="card">
         <h3>The demo</h3>
         <p>A small Streamlit app, <em>Boosted Search</em>, where you can drag popularity and recency weights and watch the ranking move in real time.</p>
       </div>
       <div class="card">
         <h3>The payoff</h3>
-        <p>A mental model for where hand-designed ranking ends and Learn-to-Rank begins — and how to tell which one a project actually needs.</p>
+        <p>A mental model for where hand-designed score boosted ranking ends and when you might want to consider Learn-to-Rank</p>
       </div>
     </div>
   </section>
