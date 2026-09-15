@@ -45,7 +45,7 @@
 
   <section class="section">
     <h2><span class="idx">01</span>The flow</h2>
-    <p class="lede">A boosted search is really two stages wearing one query: prefetch a wide candidate set by vector similarity, then rescore that set with a formula that folds in payload signals.</p>
+    <p class="lede">A boosted search comprises two parts: prefetch a wide candidate set by vector similarity, then rescore that set with a formula that folds in payload signals.</p>
     <div class="flow">
       <div class="flow-step accent-v">
         <span class="k">prefetch</span>
@@ -68,7 +68,7 @@
         <span class="d">Sort by final_score, return the top N</span>
       </div>
     </div>
-    <p>The candidate set from the first stage is deliberately wider than what gets returned — rescoring can only reorder what it's given, so retrieval needs enough headroom for popularity and recency to meaningfully shuffle the ranking.</p>
+    <p>The candidate set from the first stage is deliberately wider than what gets returned — rescoring can only reorder what it's given, so retrieval needs enough headroom for popularity and recency to meaningfully shuffle the ranking. Taken to the extreme, you couldn't have a final top 10 rankings if you only had 5 candidates to work with.</p>
   </section>
 
   <section class="section">
@@ -92,7 +92,7 @@ final_score = <span class="fn">sum</span>(
 
 <span class="c1"># 4. sort candidates by final_score, return the top N</span>
 results = <span class="fn">rank_by</span>(candidates, final_score, limit=<span class="str">10</span>)</pre></div>
-    <p>Two things worth noticing: <code>$score</code> is a reference to the similarity already computed in the prefetch step, not a fresh computation — the formula reuses it rather than re-deriving it. And the decay curve is just another term; swapping <code>linear</code> for <code>gauss</code> changes the shape of one input, not the structure of the formula.</p>
+    <p>Two things worth noticing: <code>$score</code> is a reference to the similarity already computed in the prefetch step, not a fresh computation — the formula reuses it rather than re-deriving it, you won't see it anywhere else in the code, but it's used internally by the Qdrant code. The decay curve is just another term; swapping <code>linear</code> for <code>gauss</code> changes the shape of one input, not the structure of the formula.</p>
   </section>
 
 <section class="section">
