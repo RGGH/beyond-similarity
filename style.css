@@ -22,6 +22,42 @@
   --font-mono: "IBM Plex Mono", ui-monospace, monospace;
 
   --max: 880px;
+
+  /* fixed = always dark / always white, regardless of theme.
+     Used for decorative chips (code blocks, active nav pill,
+     skip link) that are designed to read as "ink" in either mode. */
+  --ink-fixed: #0B0F19;
+  --white-fixed: #FFFFFF;
+  --nav-bg: rgba(255,255,255,0.92);
+
+  color-scheme: light;
+}
+
+/* ---------- Dark theme ---------- */
+html[data-theme="dark"]{
+  --amaranth: #FF4A70;
+  --amaranth-dim: #D63A5C;
+  --neon: #8577FF;
+  --neon-dim: #6D5CF0;
+  --ink: #ECEBE6;
+  --white: #0B0F19;
+  --paper: #131826;
+  --line: #262B3D;
+  --muted: #A7ACBE;
+  --muted-2: #6E7387;
+  --nav-bg: rgba(11,15,25,0.85);
+
+  color-scheme: dark;
+}
+
+html[data-theme="dark"] .topnav{
+  background: var(--nav-bg);
+}
+html[data-theme="dark"] .brand-mark path[fill="#0B0F19"]{
+  fill: var(--ink);
+}
+html[data-theme="dark"] .code-block{
+  border: 1px solid var(--line);
 }
 
 *{ box-sizing: border-box; }
@@ -36,6 +72,7 @@ body{
   font-size: 17px;
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
+  transition: background .2s ease, color .2s ease;
 }
 
 @media (prefers-reduced-motion: reduce){
@@ -74,16 +111,17 @@ code{
 /* ---------- Skip link ---------- */
 .skip-link{
   position:absolute; left:-999px; top:0;
-  background: var(--ink); color: var(--white); padding: 10px 16px; z-index: 999;
+  background: var(--ink-fixed); color: var(--white-fixed); padding: 10px 16px; z-index: 999;
 }
 .skip-link:focus{ left: 12px; top: 12px; }
 
 /* ---------- Top nav ---------- */
 .topnav{
   position: sticky; top: 0; z-index: 50;
-  background: rgba(255,255,255,0.92);
+  background: var(--nav-bg);
   backdrop-filter: blur(10px);
   border-bottom: 1px solid var(--line);
+  transition: background .2s ease, border-color .2s ease;
 }
 .topnav-inner{
   max-width: 1180px; margin: 0 auto;
@@ -118,7 +156,7 @@ code{
 .scenes a .n{
   font-family: var(--font-mono); font-size: 11px; color: var(--muted-2);
 }
-.scenes a.active{ color: var(--white); background: var(--ink); }
+.scenes a.active{ color: var(--white-fixed); background: var(--ink-fixed); }
 .scenes a.active .n{ color: rgba(255,255,255,0.55); }
 
 /* ---------- Hero / scene header ---------- */
@@ -214,7 +252,7 @@ main{ display:block; }
 
 /* ---------- Code / pseudocode ---------- */
 .code-block{
-  background: var(--ink); color: #EDEEF3;
+  background: var(--ink-fixed); color: #EDEEF3;
   border-radius: 10px; padding: 20px 22px;
   font-family: var(--font-mono); font-size: 13.5px; line-height: 1.7;
   overflow-x: auto; margin: 18px 0;
@@ -265,7 +303,7 @@ main{ display:block; }
 .flow-step span.d{ font-size: 0.87rem; color: var(--muted); }
 .flow-step.accent-v{ border-top: 3px solid var(--neon); }
 .flow-step.accent-p{ border-top: 3px solid var(--amaranth); }
-.flow-step.accent-k{ border-top: 3px solid var(--ink); }
+.flow-step.accent-k{ border-top: 3px solid var(--ink-fixed); }
 
 @media (max-width: 700px){
   .flow{ flex-direction:column; }
@@ -383,3 +421,19 @@ table.compare td:first-child, table.compare th:first-child{ padding-left:0; widt
   position:absolute; pointer-events:none; z-index:-1;
 }
 .scene-head{ position:relative; overflow:hidden; }
+
+/* ---------- Theme toggle ---------- */
+.theme-toggle{
+  flex-shrink: 0;
+  display:flex; align-items:center; justify-content:center;
+  width: 34px; height: 34px;
+  border: 1px solid var(--line); border-radius: 50%;
+  background: var(--paper); color: var(--ink);
+  cursor: pointer; padding: 0;
+  transition: background .15s ease, border-color .15s ease, color .15s ease;
+}
+.theme-toggle:hover{ border-color: var(--muted-2); }
+.theme-toggle svg{ width: 17px; height: 17px; }
+.theme-toggle .icon-moon{ display:none; }
+html[data-theme="dark"] .theme-toggle .icon-sun{ display:none; }
+html[data-theme="dark"] .theme-toggle .icon-moon{ display:block; }
