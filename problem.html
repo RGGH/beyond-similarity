@@ -69,7 +69,7 @@
   </section>
 
   <section class="section">
-    <h2><span class="idx">02</span>What a recommendation actually <i>needs</i></h2>
+    <h2><span class="idx">02</span>What a recommendation actually needs</h2>
     <p>Two items can sit at nearly identical distance from a query and still deserve very different treatment:</p>
     <div class="cols">
       <div class="card">
@@ -81,13 +81,12 @@
         <p>Slightly less "on the nose" semantically, but it's a current bestseller with strong recent purchase activity.</p>
       </div>
     </div>
-    <br>
     <p>A storefront usually wants to surface Item B first. Similarity alone can't tell them apart — it has no concept of stock, trend, or business priority. That gap is where additional signals come in: rating, popularity, recency, margin, customer preference, whatever the business actually cares about.</p>
   </section>
 
   <section class="section">
     <h2><span class="idx">03</span>Think of ranking as a scoring function</h2>
-    <p>The reframe that makes this tractable: stop thinking of "search" and "ranking" as one step. Retrieval finds the candidates. Ranking is a separate function that takes each candidate and produces a number — a score — used purely to order the results.</p>
+    <p>Split it into two jobs instead of one. Retrieval finds the candidates. Ranking is a separate step: it scores each candidate, and that score decides the order.</p>
     <p>That score can be built from anything measurable: the semantic similarity is one input among several, not the whole answer.</p>
     <div class="formula">
       <span class="term sim">semantic similarity</span>
@@ -97,6 +96,7 @@
       <span class="term">ranking score</span>
     </div>
     <p>The next scene looks at the dataset this score will be built from — and specifically, which fields belong to the vector side of the problem and which belong to the business-logic side.</p>
+    <img src="img/nice.gif" alt="">
   </section>
 
 </main>
