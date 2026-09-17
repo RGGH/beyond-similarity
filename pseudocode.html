@@ -115,7 +115,7 @@ results = <span class="fn">rank_by</span>(candidates, final_score, limit=<span c
 
   <h2><span class="idx">03\</span>What Qdrant is actually doing here</h2>
 
-  <p>This runs as a single query against the database — the prefetch and the formula rescoring happen server-side, in one round trip. That matters for two reasons: the ranking logic lives next to the data it reads instead of in application code pulling every candidate back to compute a score client-side, and it stays fast enough to run per-request rather than as a batch job.</p>
+  <p>This runs as a single query against the collection — the prefetch and the formula rescoring happen server-side, in one round trip. That matters for two reasons: the ranking logic lives next to the data it reads instead of in application code pulling every candidate back to compute a score client-side, and it stays fast enough to run per-request rather than as a batch job.</p>
 
   <p>The videos in this <a href="https://www.youtube.com/playlist?list=PLKMY3XNPiQ7vyxWGlpdYPHneYZDS2oPEK" target="_blank" rel="noopener noreferrer">playlist series</a> build the full working version of this — embeddings, collection setup, the Streamlit UI. This scene is about the shape of the idea, not a rebuild.</p>
 
