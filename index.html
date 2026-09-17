@@ -90,13 +90,13 @@
     <div class="scene-head-text">
       <div class="scene-tag"><span class="dot"></span>Scene 01 — Intro</div>
       <h1>Vector search finds what's similar. It doesn't decide what to show first.</h1>
-      <p class="scene-dek">A walkthrough on combining vector similarity with business logic to build recommendations that actually rank the way a business needs them to.</p>
+      <p class="scene-dek">A guide showing how to combine vector similarity with business logic to build recommendations that actually rank the way a business wants</p>
     </div>
     <img class="scene-head-lady" src="img/lady.png" alt="Illustration of a woman in a red dress working on a laptop.">
 
     <figure class="shot">
       <img src="img/search_results.png" alt="Boosted Search results: a ranked list of dresses with final_score, vector_score, popularity and recency, plus a stacked bar chart of score components per item.">
-      <figcaption>Boosted Search — using Qdrant. The ranked output is what this guide builds toward.</figcaption>
+      <figcaption>Boosted Search — using Qdrant. This guide builds toward ranked results using Qdrant and H&M's dataset</figcaption>
     </figure>
   </div>
 
@@ -124,7 +124,7 @@
 
   <h3>The tool</h3>
 
-  <p>Qdrant's <code>FormulaQuery</code> — a way to define a ranking function on top of retrieval, without leaving the database.</p>
+  <p>Qdrant's <code>FormulaQuery</code> — a way to define a ranking function on top of retrieval.</p>
 
   <p><a href="https://qdrant.tech/documentation/search/search-relevance/#score-boosting">Qdrant FormulaQuery — Score Boosting</a></p>
 
@@ -142,7 +142,7 @@
       </div>
       <div class="card">
         <h3>The payoff</h3>
-        <p>A mental model for where hand-designed score boosted ranking ends and when you might want to consider Learn-to-Rank</p>
+        <p>A mental model to understand score boosted ranking, and discover when you might want to use Learn-to-Rank</p>
       </div>
     </div>
   </section>
