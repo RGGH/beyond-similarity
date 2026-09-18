@@ -109,11 +109,15 @@ final_score = <span class="fn">sum</span>(
 <span class="c1"># 4. sort candidates by final_score, return the top N</span>
 results = <span class="fn">rank_by</span>(candidates, final_score, limit=<span class="str">10</span>)</pre></div>
     <p>Two things worth noticing: <code>$score</code> is a reference to the similarity already computed in the prefetch step, not a fresh computation — the formula reuses it rather than re-deriving it, you won't see it anywhere else in the code, but it's used internally by the Qdrant code. The decay curve is just another term; swapping <code>linear</code> for <code>gauss</code> changes the shape of one input, not the structure of the formula.</p>
+    <p>Note: Payload variables used within the formula benefit from having payload indexes ~ Qdrant</p>
+    <p><a href="https://qdrant.tech/blog/decay-functions/#code-snippets">Qdrant Code Snippets</a></p>
   </section>
+
+  
 
 <section class="section">
 
-  <h2><span class="idx">03\</span>What Qdrant is actually doing here</h2>
+  <h2><span class="idx">03</span>What Qdrant is actually doing here</h2>
 
   <p>This runs as a single query against the collection — the prefetch and the formula rescoring happen server-side, in one round trip. That matters for two reasons: the ranking logic lives next to the data it reads instead of in application code pulling every candidate back to compute a score client-side, and it stays fast enough to run per-request rather than as a batch job.</p>
 
