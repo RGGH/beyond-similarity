@@ -67,9 +67,14 @@
     <p class="scene-dek">Rather than build a demo dataset from nothing, we use a real H&amp;M product catalogue, upserted to Qdrant</p>
   </div>
 
+    <section class="section">
+      <img src="img/hf_screenshot.png">
+      <figcaption>H&M Hugging Face dataset</figcaption>
+    </section>
+
   <section class="section">
     <h2><span class="idx">01</span>Reuse, don't reinvent</h2>
-    <p class="lede">For a prototype with a decent number of items, you could do worse than use the existing H&amp;M product dataset, the embeddings are already done. You will just need to download and then load into a new Qdrant collection. <br>It is complete with the business fields that a real storefront would track.</p>
+    <p class="lede">For a prototype with a realistic number of items the existing H&amp;M product dataset is perfect. The embeddings are already done. You will just need to download and then load into a new Qdrant collection. <br>It is complete with the business fields that a real storefront would track.</p>
     <p>Every point in the collection looks like this:</p>
     <div class="code-block"><pre><span class="p">{</span>
   <span class="c1">// vector: dense embedding of image + description (not shown)</span>
