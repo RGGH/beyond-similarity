@@ -55,30 +55,38 @@
 
   <div class="scene-head">
     <div class="scene-tag"><span class="dot"></span>Scene 07 — Review &amp; Zoom Out</div>
-    <h1>Formula Query is a ranking function you write. LTR is one the data writes.</h1>
+    <h1>Formula Query is a ranking function you write. LTR is a ranking function the data helps you learn.</h1>
     <p class="scene-dek">Stepping back from the mechanics to place this technique in the wider landscape of ranking.</p>
   </div>
 
   <section class="section">
     <h2><span class="idx">01</span>What Formula Query actually provides</h2>
-    <p class="lede">Underneath the sliders and the decay curves, Formula Query is a general-purpose way of constructing a ranking function inside the database: an expression tree of sums, products, and decay curves over <code>$score</code> and payload fields, evaluated per-candidate at query time.</p>
-    <p>The additive popularity-plus-recency formula is a simple useful case. The same mechanism supports considerably more — nested expressions, multiple decay curves stacked on different fields, conditional terms — without leaving the query language.</p>
+    <p class="lede">Underneath the sliders and decay curves, Formula Query is a general-purpose way to construct a ranking expression that Qdrant evaluates at query time: an expression tree combining arithmetic operations, decay functions, <code>$score</code>, and payload fields, evaluated for each candidate.</p>
+    <p>The additive popularity-plus-recency formula is a simple, useful case. The same mechanism supports considerably more — nested expressions, multiple decay curves over different fields, and conditional expressions based on payload values — without having to move the ranking logic into application code.</p>
   </section>
 
   <section class="section">
     <h2><span class="idx">02</span>Beyond simple score boosting</h2>
-    <p>It's tempting to think of this as "similarity plus a couple of bonus points," but the formula is really a small ranking DSL. Decay functions alone open up a fair amount of range — linear for a hard, predictable cutoff; exponential when a small amount of staleness should barely matter but a lot should matter a great deal; Gaussian for a soft window around an ideal value that isn't necessarily "as recent as possible" (think: shipping estimates, or price closeness to a target).</p>
+    <p>It's tempting to think of this as "similarity plus a couple of bonus points," but the formula is really a small ranking DSL.</p>
+    <p>Decay functions alone cover a useful range of ranking behaviour:</p>
+    <ul class="decay-list">
+      <li><strong>Linear decay</strong> — a predictable falloff toward zero</li>
+      <li><strong>Exponential decay</strong> — relevance drops off progressively with distance from a target</li>
+      <li><strong>Gaussian decay</strong> — a softer preference clustered around an ideal value, rather than a simple "more is better" rule</li>
+    </ul>
+    <p>That makes it possible to express ranking policies that would otherwise require quite a bit of application-side logic.</p>
   </section>
 
   <section class="section">
     <h2><span class="idx">03</span>Hand-designed ranking vs. learned ranking</h2>
-    <p>Formula Query sits at one end of a spectrum. At the other end is Learn-to-Rank (LTR): instead of a person deciding that popularity deserves weight <code>0.2</code>, a model is trained on historical interaction data — clicks, purchases, dwell time — to learn what actually predicts a good outcome, often across dozens of signals a person would never hand-weight individually.</p>
+    <p>Formula Query sits at one end of a spectrum. At the other end is Learn-to-Rank (LTR): instead of a person deciding that popularity deserves a particular weight, a model is trained from historical relevance or interaction data to learn which signals predict a desirable ranking outcome.</p>
+    <p>Those signals might include clicks, purchases, dwell time, textual relevance, popularity, recency, or many other features. A learned model can also capture interactions between signals that would be cumbersome to specify manually.</p>
     <table class="compare">
       <tr><th>Formula Query</th><th>Learn-to-Rank</th></tr>
-      <tr><td>You define the ranking function directly — the weights and shapes are choices you make.</td><td>The ranking function is learned from data — weights (and interactions between signals) are fit by a model.</td></tr>
-      <tr><td>Transparent: every term's contribution is visible and explainable.</td><td>Often opaque: a gradient-boosted tree or neural ranker doesn't hand you a clean explanation.</td></tr>
-      <tr><td>Needs no training data — works from day one on a new catalogue.</td><td>Needs meaningful volumes of historical interaction data to learn from.</td></tr>
-      <tr><td>Cheap to change: adjust a weight, redeploy instantly.</td><td>Expensive to change: retrain, validate, redeploy a model.</td></tr>
+      <tr><td>You define the ranking function directly — the weights and shapes are choices you make.</td><td>The ranking function is learned from data — model parameters are fitted from training examples.</td></tr>
+      <tr><td>Transparent: the terms and their contributions can be inspected directly.</td><td>Often less transparent: a tree-based or neural ranker can be harder to explain than an explicit formula.</td></tr>
+      <tr><td>Can work without historical interaction data — useful when launching a new catalogue or ranking policy.</td><td>Benefits from meaningful training data that represents the relevance problem you're trying to solve.</td></tr>
+      <tr><td>Cheap to iterate on: adjust the expression and evaluate the result.</td><td>Requires a training, evaluation, and deployment workflow when the model changes.</td></tr>
     </table>
   </section>
 
@@ -87,14 +95,14 @@
     <div class="cols">
       <div class="card">
         <h3>Reach for Formula Query when...</h3>
-        <p>You're early, interaction data is thin, stakeholders need to understand and trust the ranking, or the business logic itself is genuinely simple enough to state as a formula.</p>
+        <p>You're early, interaction data is thin, stakeholders need to understand and trust the ranking, or the business logic itself is simple enough to express clearly as a formula.</p>
       </div>
       <div class="card">
         <h3>Reach for LTR when...</h3>
-        <p>You have real interaction volume, the number of useful signals has grown past what a person can weight by hand, and small ranking improvements are worth the cost of training and maintaining a model.</p>
+        <p>You have enough representative training data, the number of useful signals has grown beyond what is practical to weight by hand, and the expected benefit justifies the additional work of training, evaluating, and maintaining a model.</p>
       </div>
     </div>
-    <p>The two aren't mutually exclusive in practice — a common path is to ship a Formula Query ranking first, use it (and the interaction data it generates) to bootstrap a later LTR model, and keep the formula as a transparent fallback.</p>
+    <p>The two aren't mutually exclusive. A system can use an explicit formula for some ranking logic while also incorporating a learned model elsewhere in the ranking pipeline. An explicit Formula Query can also provide a useful, interpretable baseline against which a learned ranker can be evaluated.</p>
   </section>
 
 </main>
