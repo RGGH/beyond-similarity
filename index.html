@@ -37,16 +37,16 @@
       max-width: 640px;
     }
 
-    .scene-head-lady {
-      position: absolute;
-      top: 0;
-      right: 0;
-      width: 360px;
-      max-width: 42%;
-      height: auto;
-      z-index: 2;
-      pointer-events: none;
-    }
+.scene-head-lady {
+  position: absolute;
+  top: 3rem;          /* was 0, lowers the image by ~2 lines */
+  right: 0;
+  width: 360px;
+  max-width: 42%;
+  height: auto;
+  z-index: 2;
+  pointer-events: none;
+}
 
     @media (max-width: 900px) {
       .scene-head-lady {
@@ -214,7 +214,7 @@
         </div>
 
         <h1>
-          Vector search finds what's similar, but we can also influence what gets shown first.
+          Vector search finds what's similar, but not what gets shown first.
         </h1>
 
         <p class="scene-dek">
