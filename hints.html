@@ -55,8 +55,8 @@
 
   <div class="scene-head">
     <div class="scene-tag"><span class="dot"></span>Scene 06 — Hints &amp; Practical Points</div>
-    <h1>Five things that go wrong before this feels obvious.</h1>
-    <p class="scene-dek">Nothing here is exotic — but each one is an easy way to quietly break a ranking formula that looks correct on paper.</p>
+    <h1>Five things to watch out for</h1>
+    <p class="scene-dek">What can quietly break a ranking formula that looks correct on paper?</p>
   </div>
 
   <section class="section">
@@ -76,7 +76,7 @@
 
   <section class="section">
     <h2><span class="idx">04</span>Actually test the effect of changing weights</h2>
-    <p>A formula that looks reasonable in isolation can still produce a ranking nobody would choose. Run the same query through a few weight configurations — or a few decay shapes, as in the comparison chart from the demo app — and look at how the actual top results move, not just the numbers.</p>
+    <p>A formula that looks reasonable in isolation can still produce a ranking nobody would choose. Run the same query through a few weight configurations — or a few decay shapes, as in the comparison chart from the demo app — and look at how the actual top results move, not just the numbers. Visualising the output helps too.</p>
 <figure class="shot">
   <img src="img/decay-comparison.png" alt="Line chart comparing final_score by rank across linear, exponential, and Gaussian decay functions for the same search.">
   <figcaption>Same query and weights, re-run with each decay function.</figcaption>
@@ -85,7 +85,7 @@
 
   <section class="section">
     <h2><span class="idx">05</span>Keep retrieval and ranking conceptually separate</h2>
-    <p>Even though they run in one query, treat them as two different jobs while you're building: retrieval decides who's in the room, ranking decides who speaks first. Debugging is much easier when you can ask "is this a bad candidate, or a badly ranked good candidate?" as two separate questions instead of one tangled one.</p>
+    <p>Even though they run in one query, treat them as two different jobs while you're building: retrieval decides who's in the room, ranking decides who speaks first. Debugging is much easier when you can ask "is this a bad candidate, or a badly ranked good candidate?" as two <i>separate</i> questions.</p>
   </section>
 
 </main>
